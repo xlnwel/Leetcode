@@ -20,19 +20,18 @@ private:
             return;
         }
         int a = n - 1 - row;
-        int b = 2 * n - 1 - row;
         for (int i = 0; i != n; ++i) {
-            if (col[i] || diag1[i+a] || diag2[b-i])
+            if (col[i] || diag1[i+a] || diag2[row+i])
                 continue;
-            flip(i, a, b);
+            flip(i, a, row);
             helper(row+1, n);
-            flip(i, a, b);
+            flip(i, a, row);
         }
     }
     void flip(int i, int a, int b) {
         col[i] = col[i] ^ 1;
         diag1[i+a] = diag1[i+a] ^ 1;
-        diag2[b-i] = diag2[b-i] ^ 1;
+        diag2[b+i] = diag2[b+i] ^ 1;
     }
     int ans;
     vector<bool> col;
