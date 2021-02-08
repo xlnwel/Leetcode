@@ -6,43 +6,38 @@ using namespace std;
 class Solution {
 public:
     string simplifyPath(string path) {
+        if (path.size() == 1)
+            return path;
         int n = 0;
-        int m = 0;
-        for (int i = 0; i < path.size();) {
+        for (auto i = 0; i < path.size(); ++i) {
             if (path[i] == '/') {
-                if (i + 1 == path.size())   // break if path ends
+                if (i + 1 == path.size())   // "/" in the end, ignore it
                     break;
-                else if (path[i+1] == '.') {
-                    if (i + 2 == path.size())   // break if path ends with . 
-                        break;
-                    else {
-                        if (path[i+2] == '.' && (i + 3 >= path.size() || path[i+3] == '/')) {   // set n = m and skip to next / if ..
-                            while (n > 0 && path[--n] != '/');
-                            i += 3;
-                            continue;
-                        }
-                        else if (path[i+2] == '/') {    // skip to next / if .
-                            i += 2;
-                            continue;
-                        }
-                        // do nothing if /.[^./]+
-                    }
-                }
-                else  if (path[i+1] == '/'){ // jump over consecutive //
-                    while (i+1 < path.size() && path[i+1] == '/')
-                        ++i;
+                if (path[i+1] == '/') {    // consecutive "//", ignore first "/"
                     continue;
                 }
+                if (path[i+1] == '.') {
+                    if (i + 2 == path.size() || path[i+2] == '/') {   // "/." in the end or "/./", ignore them
+                        ++i;
+                        continue;
+                    }
+                    if (path[i+2] == '.' && (i + 3 == path.size() || path[i+3] == '/')) {     // "/../": n rolls back to the previous "/". i advance to the next "/"
+                        i += 2;
+                        while (n > 0 && path[--n] != '/');
+                        continue;
+                    }
+                }
             }
-            assert(path[n] == '/' && path[i] == '/');
-            m = n;
-            while (i+1<path.size() && path[i+1] != '/') {
-                path[++n] = path[++i];
+            assert(path[i] == '/');
+            // cout << i << path[i] << endl;
+            while (i + 1 < path.size() && path[i+1] != '/') {
+                path[n++] = path[i++];
             }
-            path[++n] = path[++i];
+            path[n++] = path[i];
+            // cout << i << path.substr(0, n) << endl;
         }
-        if (n != 0 && path[n] == '/')
-            --n;
-        return path.substr(0, n+1);
+        if (n == 0)
+            return "/";
+        return path.substr(0, n);
     }
 };

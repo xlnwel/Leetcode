@@ -1,15 +1,11 @@
 class Solution {
 public:
     int climbStairs(int n) {
-        if (n == 1)
-            return n;
-        int n1=1, n2=1;
-        int ans;
-        for (int i = 1; i != n; ++i) {
-            ans = n1 + n2;
-            n2 = n1;
-            n1 = ans;
+        int i_1=1, i_2=1;
+        for (int i = 2; i <= n; ++i) {
+            i_2 = i_1 + i_2;
+            swap(i_1, i_2);
         }
-        return ans;
+        return i_1;
     }
 };
