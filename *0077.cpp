@@ -5,25 +5,20 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> combine(int n, int k) {
-        vector<bool> visited(n, false);
-        vector<int> v(k, 0);
-        dfs(v, visited, k, 0);
+        vector<int> v(k);
+        dfs(v, n, 1, k);
         return ans;
     }
 private:
-    void dfs(vector<int>& v, vector<bool>& visited, int k, int i) {
+    void dfs(vector<int>& v, int n, int i, int k) {
         if (k == 0) {
             ans.push_back(v);
             return;
         }
         --k;
-        for (; i != visited.size() - k; ++i) {
-            if (!visited[i]) {
-                v[k] = i+1;
-                visited[i] = true;
-                dfs(v, visited, k, i+1);
-                visited[i] = false;
-            }
+        while (i <= n - k) {
+            v[k] = i;
+            dfs(v, n, ++i, k);
         }
     }
     vector<vector<int>> ans;
