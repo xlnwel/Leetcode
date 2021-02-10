@@ -1,5 +1,5 @@
 #include <string>
-#include <vector>
+#include <array>
 
 using namespace std;
 
@@ -12,7 +12,7 @@ private:
     bool check(string::iterator b1, string::iterator e1, string::iterator b2, string::iterator e2) {
         if (b1 == e1 || (distance(b1, e1) == 1 && *b1 == *b2))
             return true;
-        vector<int> v(26, 0);
+        array<int, 26> v{};
         for (auto i = b1; i != e1; ++i)
             ++v[*i-'a'];
         for (auto i = b2; i != e2; ++i)

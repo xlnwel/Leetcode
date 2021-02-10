@@ -7,9 +7,7 @@ public:
     bool checkPossibility(vector<int>& nums) {
         if (nums.size() < 3)
             return true;
-        int n = 0;
-        if (nums[0] > nums[1])
-            ++n;
+        int n = nums[0] > nums[1];
         for (int i = 2; i != nums.size(); ++i) {
             if (nums[i-1] > nums[i]) {
                 if (nums[i-2] > nums[i]) {

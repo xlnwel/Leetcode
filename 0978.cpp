@@ -8,28 +8,23 @@ public:
     int maxTurbulenceSize(vector<int>& arr) {
         if (arr.size() < 2)
             return arr.size();
-        bool greater = arr[0] < arr[1]; // if the next comparison is greater than
+        bool greater = arr[1] < arr[0];
         int cur = arr[0] == arr[1]? 1: 2;
         int ans = cur;
-        for (auto i = 1; i != arr.size(); ++i) {
-            if (arr[i-1] == arr[i]) {
+        for (auto i = 2; i != arr.size(); ++i) {
+            if (arr[i] == arr[i-1]) {
                 cur = 1;
-                continue;
             }
-            if (cur == 1) {
-                ++cur;
-                greater = arr[i-1] < arr[i];
-            }
-            if ((greater && arr[i-1] > arr[i]) || (!greater && arr[i-1] < arr[i])) {
-                ++cur;
-                greater = !greater;
-                ans = max(ans, cur);
+            else if (cur == 1 || greater != (arr[i] > arr[i-1])) {
+                cur = 2;
+                greater = arr[i] < arr[i-1];
             }
             else {
-                greater = arr[i-1] < arr[i];
-                cur = arr[i-1] == arr[i]? 1: 2;
+                ++cur;
+                ans = max(ans, cur);
+                greater = !greater;
             }
         }
-        return ans;
+        return max(cur, ans);
     }
 };
