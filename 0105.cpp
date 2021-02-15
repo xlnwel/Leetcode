@@ -1,4 +1,5 @@
 #include <vector>
+#include <stack>
 
 using namespace std;
 
@@ -29,6 +30,35 @@ private:
         for (; mi1 != e1 && mi2 != e2 && *mi2 != *b1; ++mi1, ++mi2) {}
         root->left = helper(b1+1, mi1+1, b2, mi2);
         root->right = helper(mi1+1, e1, mi2+1, e2);
+        return root;
+    }
+};
+
+class Solution2 {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        if (preorder.empty())
+            return nullptr;
+        stack<TreeNode*> s;
+        auto root = new TreeNode(preorder[0]);
+        s.push(root);
+        int k = 0;
+        for (auto i = 1; i != preorder.size(); ++i) {
+            auto p = s.top();
+            if (p->val != inorder[k]) {
+                p->left = new TreeNode(preorder[i]);
+                s.push(p->left);
+            }
+            else {
+                while (!s.empty() && s.top()->val == inorder[k]) {
+                    p = s.top();
+                    s.pop();
+                    ++k;
+                }
+                p->right = new TreeNode(preorder[i]);
+                s.push(p->right);
+            }
+        }
         return root;
     }
 };
