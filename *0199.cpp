@@ -15,6 +15,31 @@ struct TreeNode {
 class Solution {
 public:
     vector<int> rightSideView(TreeNode* root) {
+        stack<pair<TreeNode*, int>> s;
+        vector<int> ans;
+        auto p = root;
+        int level = 0;
+        while (p) {
+            while (p) {
+                ++level;
+                if (level > ans.size())
+                    ans.push_back(p->val);
+                if (p->left && p->right)
+                    s.push({p->left, level});
+                p = p->right? p->right: p->left;
+            }
+            if (s.empty())
+                break;
+            tie(p, level) = s.top();
+            s.pop();
+        }
+        return ans;
+    }
+};
+
+class Solution2 {
+public:
+    vector<int> rightSideView(TreeNode* root) {
         if (!root)
             return {};
         vector<int> ans;
