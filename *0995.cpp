@@ -1,8 +1,27 @@
 #include <vector>
+#include <queue>
 #include <numeric>
 
 using namespace std;
 
+class Solution {
+public:
+    int minKBitFlips(vector<int>& A, int K) {
+        queue<int> q;
+        int n = 0;
+        for (auto i = 0; i != A.size(); ++i) {
+            if (q.front() == i - K)
+                q.pop();
+            if ((q.size() & 1) == A[i]) {
+                if (i > A.size()-K)
+                    return -1;
+                q.push(i);
+                ++n;
+            }
+        }
+        return n;
+    }
+};
 
 class Solution2 {
 public:
