@@ -7,6 +7,26 @@ using namespace std;
 class Solution {
 public:
     int minKBitFlips(vector<int>& A, int K) {
+        int flips = 0;
+        int n = 0;
+        for (auto i = 0, j = 0; i != A.size(); ++i) {
+            if (i-K >= 0 && A[i-K] == 2)
+                --flips;
+            if ((flips&1) != A[i])
+                continue;
+            if (i > A.size() - K)
+                return -1;
+            ++flips;
+            ++n;
+            A[i] = 2;
+        }
+        return n;
+    }
+};
+
+class Solution2 {
+public:
+    int minKBitFlips(vector<int>& A, int K) {
         queue<int> q;
         int n = 0;
         for (auto i = 0; i != A.size(); ++i) {
@@ -23,7 +43,7 @@ public:
     }
 };
 
-class Solution2 {
+class Solution3 {
 public:
     int minKBitFlips(vector<int>& A, int K) {
         return helper(A.begin(), A.end(), K);
