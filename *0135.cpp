@@ -20,7 +20,7 @@ public:
     }
 };
 
-class Solution {
+class Solution2 {
 public:
     int candy(vector<int>& ratings) {
         vector<int> candies(ratings.size());
