@@ -5,21 +5,21 @@ using namespace std;
 class Solution {
 public:
     vector<vector<int>> combine(int n, int k) {
-        vector<int> v(k);
-        dfs(v, n, 1, k);
+        dfs(n, k, 1);
         return ans;
     }
 private:
-    void dfs(vector<int>& v, int n, int i, int k) {
-        if (k == 0) {
+    void dfs(int n, int k, int i) {
+        if (v.size() == k) {
             ans.push_back(v);
             return;
         }
-        --k;
-        while (i <= n - k) {
-            v[k] = i;
-            dfs(v, n, ++i, k);
+        while (i <= n-k+v.size()+1) {
+            v.push_back(i);
+            dfs(n, k, ++i);
+            v.pop_back();
         }
     }
     vector<vector<int>> ans;
+    vector<int> v;
 };

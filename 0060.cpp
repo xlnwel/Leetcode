@@ -11,7 +11,7 @@ public:
             nf *= i;
         string s(n, '0');
         --k;
-        vector<bool> used(n, false);
+        vector used(n, false);
         for (auto i = 0; i < n; ++i) {
             int j = -1;
             for (auto a = k / nf; a >= 0; --a) {
