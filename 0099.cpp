@@ -19,16 +19,16 @@ public:
         TreeNode *pp, *first = nullptr, *second = nullptr;
         int v = numeric_limits<int>::min();
         stack<pair<bool, TreeNode*>> s;
-        s.push({true, root});
+        s.emplace(true, root);
         while (!s.empty()) {
             auto [flag, p] = s.top();
             s.pop();
             if (!p) 
                 continue;
             if (flag) {
-                s.push({true, p->right});
-                s.push({false, p});
-                s.push({true, p->left});
+                s.emplace(true, p->right);
+                s.emplace(false, p);
+                s.emplace(true, p->left);
             }
             else {
                 if (p->val < v) {

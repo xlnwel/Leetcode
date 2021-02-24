@@ -13,25 +13,26 @@ struct TreeNode {
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+
 class Solution {
 public:
     vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> ans;
         stack<pair<bool, TreeNode*>> s;
-        vector<int> v;
-        s.push({true, root});
+        s.emplace(true, root);
         while (!s.empty()) {
-            auto [to_search, root] = s.top();
+            auto [flag, p] = s.top();
             s.pop();
-            if (!root)
+            if (!p)
                 continue;
-            if (to_search) {
-                s.push({true, root->right});
-                s.push({false, root});
-                s.push({true, root->left});
+            if (flag) {
+                s.emplace(true, p->right);
+                s.emplace(false, p);
+                s.emplace(true, p->left);
             }
             else
-                v.push_back(root->val);
+                ans.push_back(p->val);
         }
-        return v;
+        return ans;
     }
 };
