@@ -1,11 +1,67 @@
 #include <tuple>
 #include <utility>
+#include <array>
 #include <vector>
+#include <stack>
 
 using namespace std;
 
 
 class Solution {
+public:
+    void solve(vector<vector<char>>& board) {
+        array<pair<int, int>, 4> dirs = {
+            make_pair(-1, 0), 
+            make_pair(1, 0), 
+            make_pair(0, -1), 
+            make_pair(0, 1), 
+        };
+        int m = board.size();
+        int n = board[0].size();
+        for (auto i = 0; i != m; ++i) {
+            if (board[i][0] == 'O')
+                dfs(board, i, 0, dirs);
+            if (board[i][n-1] == 'O')
+                dfs(board, i, n-1, dirs);
+        }
+        for (auto i = 0; i != n; ++i) {
+            if (board[0][i] == 'O')
+                dfs(board, 0, i, dirs);
+            if (board[m-1][i] == 'O')
+                dfs(board, m-1, i, dirs);
+        }
+        for (auto i = 0; i != m; ++i) {
+            for (auto j = 0; j != n; ++j) {
+                if (board[i][j] == 'Y')
+                    board[i][j] = 'O';
+                else if (board[i][j] == 'O')
+                    board[i][j] = 'X';
+            }
+        }
+    }
+private:
+    void dfs(vector<vector<char>>& board, int i, int j, const array<pair<int, int>, 4>& dirs) {
+        stack<pair<int, int>> s;
+        s.emplace(i, j);
+        while (!s.empty()) {
+            auto [x, y] = s.top();
+            board[x][y] = 'Y';
+            s.pop();
+            for (auto [m, n]: dirs) {
+                i = x + m;
+                j = y + n;
+                if (is_valid(board, i, j))
+                    s.emplace(i, j);
+            }
+        }
+    }
+    bool is_valid(const vector<vector<char>>& board, int i, int j) {
+        return i >= 0 && i < board.size() && j >= 0 && j < board[i].size() && board[i][j] == 'O';
+    }
+};
+
+
+class Solution2 {
 public:
     void solve(vector<vector<char>>& board) {
         if (board.empty() || board[0].empty())

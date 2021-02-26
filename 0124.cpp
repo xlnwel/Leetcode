@@ -45,6 +45,25 @@ public:
     }
 };
 
+class Solution1 {
+public:
+    int maxPathSum(TreeNode* root) {
+        ans = root? root->val: 0;
+        helper(root);
+        return ans;
+    }
+private:
+    int helper(TreeNode* p) {
+        if (!p)
+            return 0;
+        auto left = helper(p->left);
+        auto right = helper(p->right);
+        ans = max({ans, p->val, p->val+left, p->val+right, p->val+left+right});
+        return max(p->val, p->val + max(left, right));
+    }
+    int ans;
+};
+
 class Solution2 {
 public:
     int maxPathSum(TreeNode* root) {

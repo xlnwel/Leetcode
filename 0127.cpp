@@ -7,6 +7,52 @@ using namespace std;
 class Solution {
 public:
     int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+        unordered_set<string> words(wordList.begin(), wordList.end());
+        if (!contains(words, endWord))
+            return 0;
+        words.insert(beginWord);
+        unordered_set<string> l1, r1, tmp;
+        l1.insert(beginWord);
+        r1.insert(endWord);
+        int l = 0, r = 1;
+        bool flag = true;
+        while (!l1.empty() && !r1.empty()) {
+            auto& search_set = flag? l1: r1;
+            auto& other_set = flag? r1: l1;
+            flag? ++l: ++r;
+            for (auto itr = search_set.begin(); itr != search_set.end(); ++itr) {
+                auto s = *itr;
+                words.erase(s);
+                for (auto i = 0; i != s.size(); ++i) {
+                    auto old = s[i];
+                    for (auto c = 'a'; c <= 'z'; ++c) {
+                        if (c == old)
+                            continue;
+                        s[i] = c;
+                        if (contains(words, s)) {
+                            if (contains(other_set, s)) 
+                                return l + r;
+                            tmp.insert(s);
+                        }
+                    }
+                    s[i] = old;
+                }
+            }
+            swap(search_set, tmp);
+            tmp = {};
+            flag = !flag;
+        }
+        return 0;
+    }
+private:
+    bool contains(const unordered_set<string>& words, const string& s) {
+        return words.find(s) != words.end();
+    }
+};
+
+class Solution2 {
+public:
+    int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
         ws = unordered_set(wordList.begin(), wordList.end());
         if (ws.count(endWord) == 0 || beginWord == endWord)
             return 0;
