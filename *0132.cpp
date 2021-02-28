@@ -36,6 +36,37 @@ public:
     }
 };
 
+
+class Solution1 {
+public:
+    int minCut(string s) {
+        vector dp(s.size(), s.size());
+        dp[0] = 1;
+        for (auto i = 1; i != s.size(); ++i) {
+            if (isPalindrome(s, 0, i)) {
+                dp[i] = 1;
+                continue;
+            }
+            for (auto j = 1; j <= i; ++j) {
+                if (isPalindrome(s, j, i))
+                    dp[i] = min(dp[i], dp[j-1]+1);
+            }
+        }
+        return dp.back()-1;
+    }
+private:
+    bool isPalindrome(const string& s, int i, int j) {
+        while (i < j) {
+            if (s[i] != s[j])
+                return false;
+            ++i;
+            --j;
+        }
+        return true;
+    }
+};
+
+
 class Solution2 {
 public:
     int minCut(string s) {
