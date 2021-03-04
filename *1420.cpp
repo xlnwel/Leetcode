@@ -25,7 +25,7 @@ public:
                     break;
                 for (auto m1 = k1; m1 < m; ++m1) {
                     dp[n1][k1][m1] = accumulate(
-                        dp[n1-1][k1-1].begin(), 
+                        dp[n1-1][k1-1].begin()+k1-1, 
                         dp[n1-1][k1-1].begin()+m1, 
                         dp[n1-1][k1][m1]*(m1+1));
                     assert(dp[n1][k1][m1] > 0);
