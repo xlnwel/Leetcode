@@ -6,6 +6,26 @@ using namespace std;
 class Solution {
 public:
     int maxEnvelopes(vector<vector<int>>& envelopes) {
+        sort(envelopes.begin(), envelopes.end(), [](const vector<int>& x, const vector<int>& y) {
+            return x[0] == y[0]? x[1] > y[1]: x[0] < y[0];
+        });
+        vector dp{envelopes[0][1]};
+        for (auto x: envelopes) {
+            if (x[1] > dp.back())
+                dp.push_back(x[1]);
+            else {
+                auto itr = lower_bound(dp.begin(), dp.end(), x[1]);
+                *itr = x[1];
+            }
+        }
+        return dp.size();
+    }
+};
+
+
+class Solution1 {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
         auto op = [](const vector<int>& x, const vector<int>& y) {
             return x[0] < y[0];
         };
