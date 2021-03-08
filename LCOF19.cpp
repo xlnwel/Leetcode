@@ -23,7 +23,6 @@ public:
                 else if (p[j-1] == '*') {
                     dp[i][j] = (match(i, j-1) && dp[i-1][j]) || dp[i][j-2];
                 }
-                cout << i << j << " " << dp[i][j] << '\n';
             }
         }
         return dp.back().back();

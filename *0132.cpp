@@ -18,21 +18,19 @@ public:
                 pdp[i-l][i+l] = true;
         }
         // find the minimum number of partition
-        vector dp(s.size(), 1);
-        for (auto i = 1; i != s.size(); ++i) {
-            if (pdp[0][i]) {
-                dp[i] = 1;
-                continue;
-            }
+        vector dp(s.size(), s.size()-1);
+        for (auto l = 0; l != s.size(); ++l) {
+            if (pdp[0][l])
+                dp[l] = 0;
             else {
-                dp[i] = i+1;
-            }
-            for (auto j = 0; j < i; ++j) {
-                if (pdp[j+1][i] && dp[i] > dp[j] + 1)
-                    dp[i] = dp[j]+1;
+                for (auto i = 1; i <= l; ++i) {
+                    if (pdp[i][l] && dp[i-1] + 1 < dp[l]) {
+                        dp[l] = dp[i-1] + 1;
+                    }
+                }
             }
         }
-        return dp[s.size()-1] - 1;
+        return dp.back();
     }
 };
 
