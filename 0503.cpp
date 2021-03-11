@@ -10,30 +10,25 @@ public:
         if (nums.empty())
             return {};
         stack<int> s;
-        int idx;
-        int max_val = nums[0];
         vector ans(nums.size(), -1);
+        int max_val = nums[0];
         for (auto i = 0; i != nums.size(); ++i) {
-            while (!s.empty() && nums[idx = s.top()] < nums[i]) {
+            while (!s.empty() && nums[i] > nums[s.top()]) {
+                ans[s.top()] = nums[i];
                 s.pop();
-                ans[idx] = nums[i];
             }
             s.push(i);
-            if (nums[i] > max_val)
-                max_val = nums[i];
+            max_val = max(nums[i], max_val);
         }
-        for (auto i = 0; i != nums.size(); ++i) {
-            while (!s.empty() && nums[idx = s.top()] < nums[i]) {
+        for (auto i = 0; nums[s.top()] != max_val; ++i) {
+            while (nums[i] > nums[s.top()]) {
+                ans[s.top()] = nums[i];
                 s.pop();
-                ans[idx] = nums[i];
             }
-            if (nums[idx] == max_val)
-                break;
         }
         return ans;
     }
 };
-
 class Solution2 {
 public:
     vector<int> nextGreaterElements(vector<int>& nums) {
