@@ -21,7 +21,6 @@ public:
         priority_queue<int_pair, vector<int_pair>, decltype(comp)> pq(comp);
         pq.emplace(0, 0);
         int end = m*n-1;
-        vector<bool> seen(m * n, false);
         constexpr array<pair<int, int>, 4> dirs = {
             make_pair(-1, 0),
             make_pair(1, 0),
@@ -31,20 +30,20 @@ public:
         while (!pq.empty()) {
             auto [k, coor] = pq.top();
             pq.pop();
-            if (seen[coor]) {
-                continue;
-            }
             if (coor == end)
                 return k;
-            seen[coor] = true;
             auto [x, y] = idx2xy(coor);
+            if (heights[x][y] < 0) {
+                continue;
+            }
             for (auto [i, j]: dirs) {
                 i += x;
                 j += y;
                 auto idx_new = xy2idx(i, j);
-                if (is_valid(i, j, m, n) && !seen[idx_new])
+                if (is_valid(i, j, m, n) && heights[i][j] > 0)
                     pq.emplace(max(k, abs(heights[x][y] - heights[i][j])), idx_new);
             }
+            heights[x][y] = -1;
         }
         return -1;
     }
