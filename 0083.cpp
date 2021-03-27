@@ -8,6 +8,8 @@ struct ListNode {
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
+        if (!head)
+            return head;
         ListNode dummy(head->val-1, head);
         auto p1 = &dummy, p2 = head;
         while (p2) {
