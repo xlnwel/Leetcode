@@ -4,17 +4,18 @@ using namespace std;
 
 class Solution {
 public:
-    int cuttingRope(int n) {
+    int maxNiceDivisors(int n) {
         if (n < 4)
-            return n - 1;
-        int q = n / 3;
-        int r = n % 3;
-        if (r == 1 && q != 0) {
+            return n;
+        auto q = n / 3;
+        auto r = n % 3;
+        if (r == 1 && q) {
             r = 4;
             --q;
         }
-        else if (r == 0)
+        else if (r == 0) {
             r = 1;
+        }
         return compute(q, r);
     }
 private:
