@@ -2,8 +2,32 @@
 
 using namespace std;
 
-
 class Solution {
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(), nums.end());
+        backtrack(nums, 0);
+        return ans;
+    }
+private:
+    void backtrack(const vector<int>& nums, int i) {
+        if (i > nums.size())
+            return;
+        ans.push_back(v);
+        for (auto j = i; j != nums.size(); ++j) {
+            if (j != i && nums[j] == nums[j-1]) continue;
+            v.push_back(nums[j]);
+            backtrack(nums, j+1);
+            v.pop_back();
+        }
+
+    }
+    vector<vector<int>> ans;
+    vector<int> v;
+};
+
+
+class Solution2 {
 public:
     vector<vector<int>> subsetsWithDup(vector<int>& nums) {
         vector<int> v;
